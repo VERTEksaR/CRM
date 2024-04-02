@@ -7,17 +7,17 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('adv_company', '0001_initial'),
-        ('service', '0001_initial'),
+        ('product', '0001_initial'),
     ]
 
     operations = [
         migrations.RemoveField(
             model_name='advcompany',
-            name='service',
+            name='product',
         ),
         migrations.AddField(
             model_name='advcompany',
-            name='service',
-            field=models.ManyToManyField(to='service.service', verbose_name='Услуга'),
+            name='product',
+            field=models.ManyToManyField(to='product.product', verbose_name='Услуга'),
         ),
     ]
