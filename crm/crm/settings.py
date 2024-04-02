@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'adv_company.apps.AdvCompanyConfig',
 
     'rest_framework',
-    'django_filters',
 ]
 
 MIDDLEWARE = [
