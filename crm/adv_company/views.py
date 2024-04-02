@@ -1,53 +1,45 @@
-from rest_framework import status
-from rest_framework.request import Request
-from rest_framework.response import Response
-from rest_framework.views import APIView
+from django.urls import reverse_lazy
+from django.views.generic import ListView, CreateView, DeleteView, DetailView, UpdateView
+
 
 from adv_company.models import AdvCompany
 from .serializers import AdvSerializer
 
 
-class AdvAPIView(APIView):
-    @staticmethod
-    def get(request: Request) -> Response:
-        companies = list(AdvCompany.objects.prefetch_related('service'))
-
-        if len(companies) != 0:
-            serializer = AdvSerializer(instance=companies, many=True)
-            return Response(data=serializer.data, status=status.HTTP_200_OK)
-
-        return Response(data='Список с компаниями пуст', status=status.HTTP_200_OK)
-
-    @staticmethod
-    def post(request: Request) -> Response:
-        serializer = AdvSerializer(data=request.data)
-
-        if serializer.is_valid():
-            serializer.save()
-            return Response(status=status.HTTP_200_OK)
-        else:
-            return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class AdvListView(ListView):
+    model = AdvCompany
+    queryset = AdvCompany.objects.prefetch_related('service').all()
+    # serializer_class = AdvSerializer
+    template_name = 'adv/ads-list.html'
+    context_object_name = 'ads'
 
 
-class OneAdvAPIView(APIView):
-    @staticmethod
-    def get(request: Request, *args, **kwargs) -> Response:
-        company = AdvCompany.objects.get(id=kwargs['id'])
-        serializer = AdvSerializer(instance=company)
-        return Response(data=serializer.data, status=status.HTTP_200_OK)
+class AdvCreateView(CreateView):
+    model = AdvCompany
+    fields = ["name", "service", "promotion_channel", "budget"]
+    template_name = 'adv/ads-create.html'
 
-    @staticmethod
-    def put(request: Request, *args, **kwargs) -> Response:
-        company = AdvCompany.objects.get(id=kwargs['id'])
-        serializer = AdvSerializer(instance=company, data=request.data, partial=True)
+    def get_success_url(self):
+        return reverse_lazy('advcompany:adv-list')
 
-        if serializer.is_valid():
-            serializer.save()
 
-        return Response(status=status.HTTP_200_OK)
+class AdvDetailView(DetailView):
+    model = AdvCompany
+    template_name = 'adv/ads-detail.html'
 
-    @staticmethod
-    def delete(request: Request, *args, **kwargs) -> Response:
-        company = AdvCompany.objects.get(id=kwargs['id'])
-        company.delete()
-        return Response(status=status.HTTP_200_OK)
+
+class AdvUpdateView(UpdateView):
+    model = AdvCompany
+    fields = ["name", "service", "promotion_channel", "budget"]
+    template_name = 'adv/ads-edit.html'
+
+    def get_success_url(self):
+        return reverse_lazy('advcompany:adv-edit', kwargs={"pk": self.kwargs.get('pk')})
+
+
+class AdvDeleteView(DeleteView):
+    model = AdvCompany
+    template_name = 'adv/ads-delete.html'
+
+    def get_success_url(self):
+        return reverse_lazy('advcompany:adv-list')
