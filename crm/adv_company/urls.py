@@ -4,7 +4,7 @@
 #
 # )
 
-app_name = 'service'
+app_name = 'advcompany'
 
 urlpatterns = [
 
