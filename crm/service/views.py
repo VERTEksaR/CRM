@@ -1,14 +1,31 @@
+from django.http import HttpRequest
+from django.shortcuts import render
 from django.urls import reverse_lazy
+from django.views import View
 from django.views.generic import ListView, CreateView, DeleteView, DetailView, UpdateView
 
 from service.models import Service
-from .serializers import ServiceSerializer
+from adv_company.models import AdvCompany
+from users.models import Lead
+
+
+class MainPageView(View):
+    @staticmethod
+    def get(request: HttpRequest):
+        products = Service.objects.all()
+        advertisements = AdvCompany.objects.prefetch_related('service').all()
+        leads = Lead.objects.select_related('ads').all()
+        context = {
+            "products": products,
+            "advertisements": advertisements,
+            "leads": leads,
+        }
+        return render(request, 'service/index.html', context=context)
 
 
 class ServiceListView(ListView):
     model = Service
     queryset = Service.objects.all()
-    serializer_class = ServiceSerializer
     template_name = 'service/products-list.html'
     context_object_name = 'products'
 
@@ -25,7 +42,6 @@ class CreateServiceView(CreateView):
 class DeleteServiceView(DeleteView):
     model = Service
     template_name = 'service/products-delete.html'
-    success_url = '/products/'
 
     def get_success_url(self):
         return reverse_lazy('service:products-list')
