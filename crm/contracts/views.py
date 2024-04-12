@@ -1,11 +1,7 @@
-from django.http import HttpRequest
-from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views import View
 from django.views.generic import ListView, CreateView, DeleteView, DetailView, UpdateView
 
 from contracts.models import Contract
-from service.models import Service
 from contracts.forms import ContractForm
 
 
