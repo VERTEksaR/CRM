@@ -3,13 +3,11 @@ from django.views.generic import ListView, CreateView, DeleteView, DetailView, U
 
 
 from adv_company.models import AdvCompany
-from .serializers import AdvSerializer
 
 
 class AdvListView(ListView):
     model = AdvCompany
     queryset = AdvCompany.objects.prefetch_related('service').all()
-    # serializer_class = AdvSerializer
     template_name = 'adv/ads-list.html'
     context_object_name = 'ads'
 
