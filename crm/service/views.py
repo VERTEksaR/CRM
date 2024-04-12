@@ -7,6 +7,7 @@ from django.views.generic import ListView, CreateView, DeleteView, DetailView, U
 from service.models import Service
 from adv_company.models import AdvCompany
 from users.models import Lead
+from customers.models import Customer
 
 
 class MainPageView(View):
@@ -15,10 +16,12 @@ class MainPageView(View):
         products = Service.objects.all()
         advertisements = AdvCompany.objects.prefetch_related('service').all()
         leads = Lead.objects.select_related('ads').all()
+        customers = Customer.objects.select_related('lead', 'contract').all()
         context = {
             "products": products,
             "advertisements": advertisements,
             "leads": leads,
+            "customers": customers,
         }
         return render(request, 'service/index.html', context=context)
 
