@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'adv_company.apps.AdvCompanyConfig',
     'users.apps.UsersConfig',
     'contracts.apps.ContractsConfig',
+    'customers.apps.CustomersConfig',
 
     'rest_framework',
 ]
