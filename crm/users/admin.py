@@ -1,3 +1,19 @@
 from django.contrib import admin
 
-# Register your models here.
+from users.models import Management
+
+
+@admin.register(Management)
+class ManagementAdmin(admin.ModelAdmin):
+    list_display = "name", "role"
+    ordering = ["role"]
+    search_fields = "name", "role"
+    fieldsets = [
+        (None, {
+            "fields": ("name",)
+        }),
+        ("Role", {
+            "fields": ("role",),
+            "classes": ("wide",),
+        })
+    ]
