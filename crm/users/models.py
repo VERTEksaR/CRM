@@ -3,6 +3,15 @@ from django.db import models
 from adv_company.models import AdvCompany
 
 
+def get_currencies():
+    return {
+        ("Администратор", "Администратор"),
+        ("Оператор", "Оператор"),
+        ("Маркетолог", "Маркетолог"),
+        ("Менеджер", "Менеджер"),
+    }
+
+
 class Lead(models.Model):
     class Meta:
         verbose_name = 'Пользователь'
@@ -16,3 +25,15 @@ class Lead(models.Model):
 
     def __str__(self):
         return f'{self.last_name} {self.first_name}'
+
+
+class Management(models.Model):
+    class Meta:
+        verbose_name = 'Работник'
+        verbose_name_plural = 'Работники'
+
+    name = models.CharField(max_length=63, verbose_name='Имя')
+    role = models.CharField(max_length=63, choices=get_currencies())
+
+    def __str__(self):
+        return f'{self.role} - {self.name}'
