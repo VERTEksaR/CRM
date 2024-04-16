@@ -10,7 +10,11 @@
     <title>CRM</title>
 </head>
 <body>
-
+{% for message in messages %}
+    <div class="alert {{ message.tags }}" role="alert">
+        {{ message }}
+    </div>
+{% endfor %}
 <div class="main-container d-flex">
     <div class="sidebar" id="side_nav">
         <div class="header-box px-3 pt-4 pb-4">
