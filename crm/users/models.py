@@ -21,21 +21,9 @@ class Lead(models.Model):
     first_name = models.CharField(max_length=63, verbose_name='Имя')
     last_name = models.CharField(max_length=63, verbose_name='Фамилия')
     phone = models.IntegerField(unique=True, verbose_name='Номер телефона')
-    email = models.EmailField(unique=True)
-    ads = models.ForeignKey(AdvCompany, on_delete=models.PROTECT)
+    email = models.EmailField(unique=True, verbose_name='Почта')
+    ads = models.ForeignKey(AdvCompany, on_delete=models.PROTECT, verbose_name='Рекламная кампания')
+    is_active = models.BooleanField(default=False, verbose_name='Активный пользователь')
 
     def __str__(self):
         return f'{self.last_name} {self.first_name}'
-
-
-class Management(models.Model):
-    class Meta:
-        verbose_name = 'Работник'
-        verbose_name_plural = 'Работники'
-
-    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
-    name = models.CharField(max_length=63, verbose_name='Имя')
-    role = models.CharField(max_length=63, choices=get_currencies(), verbose_name='Роль')
-
-    def __str__(self):
-        return f'{self.role} - {self.name}'
