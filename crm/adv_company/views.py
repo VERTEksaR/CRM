@@ -75,7 +75,7 @@ class AdvStatistics(View):
                     customers += 1
                 except Exception:
                     pass
-            leads = all_leads.filter(ads=ad).count()
+            leads = all_leads.filter(ads=ad, is_active=False).count()
             ad.leads = leads
             ad.customers = customers
             ad.profit = price - ad.budget
