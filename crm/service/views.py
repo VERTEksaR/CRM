@@ -16,7 +16,7 @@ class MainPageView(View):
     def get(request: HttpRequest):
         products = Service.objects.all()
         advertisements = AdvCompany.objects.prefetch_related('service').all()
-        leads = Lead.objects.select_related('ads').all()
+        leads = Lead.objects.select_related('ads').filter(is_active=False)
         customers = Customer.objects.select_related('lead', 'contract').all()
         context = {
             "products": products,
