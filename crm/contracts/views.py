@@ -3,16 +3,19 @@ from django.views.generic import ListView, CreateView, DeleteView, DetailView, U
 
 from contracts.models import Contract
 from contracts.forms import ContractForm
+from users.mixins import GroupRequiredMixin
 
 
-class ContractListView(ListView):
+class ContractListView(ListView, GroupRequiredMixin):
+    group_required = ["Менеджер"]
     model = Contract
     queryset = Contract.objects.select_related('service').all()
     template_name = 'contracts/contracts-list.html'
     context_object_name = 'contracts'
 
 
-class ContractCreateView(CreateView):
+class ContractCreateView(CreateView, GroupRequiredMixin):
+    group_required = ["Менеджер"]
     model = Contract
     form_class = ContractForm
     template_name = 'contracts/contracts-create.html'
@@ -21,7 +24,8 @@ class ContractCreateView(CreateView):
         return reverse_lazy('contracts:contracts-list')
 
 
-class ContractDetailsView(DetailView):
+class ContractDetailsView(DetailView, GroupRequiredMixin):
+    group_required = ["Менеджер"]
     model = Contract
     template_name = 'contracts/contracts-detail.html'
 
@@ -31,7 +35,8 @@ class ContractDetailsView(DetailView):
         return context
 
 
-class ContractDeleteView(DeleteView):
+class ContractDeleteView(DeleteView, GroupRequiredMixin):
+    group_required = ["Менеджер"]
     model = Contract
     template_name = 'contracts/contracts-delete.html'
 
@@ -39,7 +44,8 @@ class ContractDeleteView(DeleteView):
         return reverse_lazy('contracts:contracts-list')
 
 
-class ContractUpdateView(UpdateView):
+class ContractUpdateView(UpdateView, GroupRequiredMixin):
+    group_required = ["Менеджер"]
     model = Contract
     form_class = ContractForm
     template_name = 'contracts/contracts-edit.html'

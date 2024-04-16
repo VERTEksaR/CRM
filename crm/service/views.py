@@ -8,6 +8,7 @@ from service.models import Service
 from adv_company.models import AdvCompany
 from users.models import Lead
 from customers.models import Customer
+from users.mixins import GroupRequiredMixin
 
 
 class MainPageView(View):
@@ -26,14 +27,16 @@ class MainPageView(View):
         return render(request, 'service/index.html', context=context)
 
 
-class ServiceListView(ListView):
+class ServiceListView(ListView, GroupRequiredMixin):
+    group_required = ["Маркетолог"]
     model = Service
     queryset = Service.objects.all()
     template_name = 'service/products-list.html'
     context_object_name = 'products'
 
 
-class CreateServiceView(CreateView):
+class CreateServiceView(CreateView, GroupRequiredMixin):
+    group_required = ["Маркетолог"]
     model = Service
     fields = ["name", "description", "price"]
     template_name = 'service/products-create.html'
@@ -42,7 +45,8 @@ class CreateServiceView(CreateView):
         return reverse_lazy('service:products-list')
 
 
-class DeleteServiceView(DeleteView):
+class DeleteServiceView(DeleteView, GroupRequiredMixin):
+    group_required = ["Маркетолог"]
     model = Service
     template_name = 'service/products-delete.html'
 
@@ -50,13 +54,15 @@ class DeleteServiceView(DeleteView):
         return reverse_lazy('service:products-list')
 
 
-class DetailsServiceView(DetailView):
+class DetailsServiceView(DetailView, GroupRequiredMixin):
+    group_required = ["Маркетолог"]
     model = Service
     template_name = 'service/products-detail.html'
     context_object_name = 'service'
 
 
-class UpdateServiceView(UpdateView):
+class UpdateServiceView(UpdateView, GroupRequiredMixin):
+    group_required = ["Маркетолог"]
     model = Service
     fields = ["name", "description", "price"]
     template_name = 'service/products-edit.html'

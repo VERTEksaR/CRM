@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 from adv_company.models import AdvCompany
@@ -32,8 +33,9 @@ class Management(models.Model):
         verbose_name = 'Работник'
         verbose_name_plural = 'Работники'
 
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
     name = models.CharField(max_length=63, verbose_name='Имя')
-    role = models.CharField(max_length=63, choices=get_currencies())
+    role = models.CharField(max_length=63, choices=get_currencies(), verbose_name='Роль')
 
     def __str__(self):
         return f'{self.role} - {self.name}'

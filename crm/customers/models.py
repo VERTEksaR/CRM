@@ -13,4 +13,4 @@ class Customer(models.Model):
     contract = models.ForeignKey(Contract, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
-        return self.lead
+        return self.lead.first_name

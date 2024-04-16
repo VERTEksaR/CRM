@@ -5,9 +5,11 @@ from django.views import View
 from django.views.generic import ListView, CreateView, DeleteView, DetailView, UpdateView
 
 from customers.models import Customer
+from users.mixins import GroupRequiredMixin
 
 
-class CustomerListView(ListView):
+class CustomerListView(ListView, GroupRequiredMixin):
+    group_required = ["Менеджер"]
     model = Customer
     queryset = Customer.objects.select_related('lead', 'contract')
     template_name = 'customers/customers-list.html'
@@ -39,7 +41,7 @@ class CustomerDeleteView(DeleteView):
 
 class CustomerUpdateView(UpdateView):
     model = Customer
-    fields = ["lead", "contract"]
+    fields = ["lead"]
     template_name = 'customers/customers-edit.html'
 
     def get_success_url(self):

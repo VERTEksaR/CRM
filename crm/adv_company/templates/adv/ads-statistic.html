@@ -1,4 +1,4 @@
-{% extends "_base.html" %}
+{% extends "adv/_base.html" %}
 
 {% block content %}
 <h2 class="fw-bold">Статистика рекламных компаний</h2>
@@ -8,7 +8,7 @@
             {% for ad in ads %}
             <li class="list-group-item list-group-item-light d-flex justify-content-between">
                 <a href="/ads/{{ ad.pk }}" class="text-decoration-none link-dark">{{ ad.name }}</a>
-                <p>Лидов: {{ ad.leads_count }} | Активных клиентов: {{ ad.customers_count }} | Соотношение контрактов к затратам: {{ ad.profit|default_if_none:"-" }}</p>
+                <p>Лидов: {{ ad.leads }} | Активных клиентов: {{ ad.customers }} | Соотношение контрактов к затратам: {{ ad.profit|default_if_none:"-" }}</p>
             </li>
             {% endfor %}
         </ul>

@@ -6,6 +6,7 @@ from .views import (
     AdvDetailView,
     AdvUpdateView,
     AdvDeleteView,
+    AdvStatistics,
 )
 
 app_name = 'advcompany'
@@ -16,4 +17,5 @@ urlpatterns = [
     path('ads/<int:pk>/edit/', AdvUpdateView.as_view()),
     path('ads/<int:pk>/delete/', AdvDeleteView.as_view()),
     path('ads/new/', AdvCreateView.as_view()),
+    path('ads/statistic/', AdvStatistics.as_view()),
 ]

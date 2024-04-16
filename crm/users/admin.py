@@ -5,7 +5,7 @@ from users.models import Management
 
 @admin.register(Management)
 class ManagementAdmin(admin.ModelAdmin):
-    list_display = "name", "role"
+    list_display = "user", "name", "role"
     ordering = ["role"]
     search_fields = "name", "role"
     fieldsets = [
