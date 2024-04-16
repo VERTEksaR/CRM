@@ -3,15 +3,28 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DeleteView, DetailView, UpdateView
 
 from users.models import Lead
+from customers.models import Customer
 from users.mixins import GroupRequiredMixin
 
 
 class LeadListView(ListView, GroupRequiredMixin):
     group_required = ["Оператор", "Менеджер"]
     model = Lead
-    queryset = Lead.objects.select_related('ads').all()
     template_name = 'users/leads-list.html'
     context_object_name = 'leads'
+
+    def get_queryset(self):
+        leads = Lead.objects.select_related('ads').all()
+        customers = Customer.objects.select_related('lead', 'contract').all()
+
+        for customer in customers:
+            if customer.lead in leads and not customer.lead.is_active:
+                lead = leads.get(id=customer.lead.id)
+                lead.is_active = True
+                lead.save()
+
+        queryset_leads = leads.filter(is_active=False)
+        return queryset_leads
 
 
 class LeadCreateView(CreateView, GroupRequiredMixin):
