@@ -1,9 +1,9 @@
 from django.contrib.auth import authenticate, login, logout
-from django.http import HttpRequest
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
 
 
-def login_view(request: HttpRequest):
+def login_view(request: HttpRequest) -> HttpResponse:
     """Функция для аутентификации пользователей на сайте"""
     if request.method == 'GET':
         if request.user.is_authenticated:
@@ -21,7 +21,7 @@ def login_view(request: HttpRequest):
     return render(request, 'auth/login.html', {'error': 'Invalid login credentials'})
 
 
-def logout_view(request: HttpRequest):
+def logout_view(request: HttpRequest) -> HttpResponse:
     """Функция для разлогирования пользователей на сайте"""
     logout(request)
     return redirect('/')

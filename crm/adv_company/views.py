@@ -1,4 +1,4 @@
-from django.http import HttpRequest
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import View
@@ -14,56 +14,57 @@ from users.mixins import GroupRequiredMixin
 
 class AdvListView(ListView, GroupRequiredMixin):
     """Класс для просмотра списка всех рекламных кампаний"""
-    group_required = ["Маркетолог"]
+    group_required: list[str] = ["Маркетолог"]
     model = AdvCompany
     queryset = AdvCompany.objects.prefetch_related('service').all()
-    template_name = 'adv/ads-list.html'
-    context_object_name = 'ads'
+    template_name: str = 'adv/ads-list.html'
+    context_object_name: str = 'ads'
 
 
 class AdvCreateView(CreateView, GroupRequiredMixin):
     """Класс для создания новой рекламной кампании"""
-    group_required = ["Маркетолог"]
+    group_required: list[str] = ["Маркетолог"]
     model = AdvCompany
-    fields = ["name", "service", "promotion_channel", "budget"]
-    template_name = 'adv/ads-create.html'
+    fields: list[str] = ["name", "service", "promotion_channel", "budget"]
+    template_name: str = 'adv/ads-create.html'
 
-    def get_success_url(self):
+    def get_success_url(self) -> HttpResponse:
         return reverse_lazy('advcompany:adv-list')
 
 
 class AdvDetailView(DetailView, GroupRequiredMixin):
     """Класс для просмотра подробной информации рекламной кампании"""
-    group_required = ["Маркетолог"]
+    group_required: list[str] = ["Маркетолог"]
     model = AdvCompany
-    template_name = 'adv/ads-detail.html'
+    template_name: str = 'adv/ads-detail.html'
 
 
 class AdvUpdateView(UpdateView, GroupRequiredMixin):
     """Класс для обновления информации о рекламной кампании"""
-    group_required = ["Маркетолог"]
+    group_required: list[str] = ["Маркетолог"]
     model = AdvCompany
-    fields = ["name", "service", "promotion_channel", "budget"]
-    template_name = 'adv/ads-edit.html'
+    fields: list[str] = ["name", "service", "promotion_channel", "budget"]
+    template_name: str = 'adv/ads-edit.html'
 
-    def get_success_url(self):
+    def get_success_url(self) -> HttpResponse:
         return reverse_lazy('advcompany:adv-edit', kwargs={"pk": self.kwargs.get('pk')})
 
 
 class AdvDeleteView(DeleteView, GroupRequiredMixin):
     """Класс для удаления рекламной кампании"""
-    group_required = ["Маркетолог"]
+    group_required: list[str] = ["Маркетолог"]
     model = AdvCompany
-    template_name = 'adv/ads-delete.html'
+    template_name: str = 'adv/ads-delete.html'
 
-    def get_success_url(self):
+    def get_success_url(self) -> HttpResponse:
         return reverse_lazy('advcompany:adv-list')
 
 
 class AdvStatistics(View):
     """Класс для отображения статистики рекламных кампаний"""
+
     @staticmethod
-    def get(request: HttpRequest):
+    def get(request: HttpRequest) -> HttpResponse:
         """Метод get выводит статистику рекламных кампаний"""
         count = 0
 

@@ -8,19 +8,19 @@ from users.mixins import GroupRequiredMixin
 
 class ContractListView(ListView, GroupRequiredMixin):
     """Класс для просмотра всех контрактов"""
-    group_required = ["Менеджер"]
+    group_required: list[str] = ["Менеджер"]
     model = Contract
     queryset = Contract.objects.select_related('service').all()
-    template_name = 'contracts/contracts-list.html'
-    context_object_name = 'contracts'
+    template_name: str = 'contracts/contracts-list.html'
+    context_object_name: str = 'contracts'
 
 
 class ContractCreateView(CreateView, GroupRequiredMixin):
     """Класс для создание нового контракта"""
-    group_required = ["Менеджер"]
+    group_required: list[str] = ["Менеджер"]
     model = Contract
     form_class = ContractForm
-    template_name = 'contracts/contracts-create.html'
+    template_name: str = 'contracts/contracts-create.html'
 
     def get_success_url(self):
         return reverse_lazy('contracts:contracts-list')
@@ -28,9 +28,9 @@ class ContractCreateView(CreateView, GroupRequiredMixin):
 
 class ContractDetailsView(DetailView, GroupRequiredMixin):
     """Класс для просмотра детальной информации контракта"""
-    group_required = ["Менеджер"]
+    group_required: list[str] = ["Менеджер"]
     model = Contract
-    template_name = 'contracts/contracts-detail.html'
+    template_name: str = 'contracts/contracts-detail.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -40,9 +40,9 @@ class ContractDetailsView(DetailView, GroupRequiredMixin):
 
 class ContractDeleteView(DeleteView, GroupRequiredMixin):
     """Класс для удаление конракта"""
-    group_required = ["Менеджер"]
+    group_required: list[str] = ["Менеджер"]
     model = Contract
-    template_name = 'contracts/contracts-delete.html'
+    template_name: str = 'contracts/contracts-delete.html'
 
     def get_success_url(self):
         return reverse_lazy('contracts:contracts-list')
@@ -50,10 +50,10 @@ class ContractDeleteView(DeleteView, GroupRequiredMixin):
 
 class ContractUpdateView(UpdateView, GroupRequiredMixin):
     """Класс для обновления информации о контракте"""
-    group_required = ["Менеджер"]
+    group_required: list[str] = ["Менеджер"]
     model = Contract
     form_class = ContractForm
-    template_name = 'contracts/contracts-edit.html'
+    template_name: str = 'contracts/contracts-edit.html'
 
     def get_success_url(self):
         return reverse_lazy('contracts:contracts-detail', kwargs={"pk": self.kwargs.get('pk')})

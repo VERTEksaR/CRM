@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, CreateView, DeleteView, DetailView, UpdateView
@@ -10,10 +11,10 @@ from users.mixins import GroupRequiredMixin
 
 class CustomerListView(ListView, GroupRequiredMixin):
     """Класс для просмотра всех активных пользователей"""
-    group_required = ["Менеджер"]
+    group_required: list[str] = ["Менеджер"]
     model = Customer
-    template_name = 'customers/customers-list.html'
-    context_object_name = 'customers'
+    template_name: str = 'customers/customers-list.html'
+    context_object_name: str = 'customers'
 
     def get_queryset(self):
         leads = Lead.objects.select_related('ads').all()
@@ -31,10 +32,10 @@ class CustomerListView(ListView, GroupRequiredMixin):
 class CustomerCreateView(CreateView):
     """Класс для создания нового активного пользователя"""
     model = Customer
-    fields = ['lead', 'contract']
-    template_name = 'customers/customers-create.html'
+    fields: list[str] = ['lead', 'contract']
+    template_name: str = 'customers/customers-create.html'
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
         lead_id = request.POST['lead']
         lead = Lead.objects.select_related('ads').get(id=lead_id)
         customers = Customer.objects.select_related('lead', 'contract').all()
@@ -47,23 +48,23 @@ class CustomerCreateView(CreateView):
         super().post(request, *args, **kwargs)
         return redirect('/customers/')
 
-    def get_success_url(self):
+    def get_success_url(self) -> HttpResponse:
         return reverse('customers:customers-list')
 
 
 class CustomerDetailView(DetailView):
     """Класс для просмотра детальной инфомрации об активном пользователе"""
     model = Customer
-    template_name = 'customers/customers-detail.html'
-    context_object_name = 'customer'
+    template_name: str = 'customers/customers-detail.html'
+    context_object_name: str = 'customer'
 
 
 class CustomerDeleteView(DeleteView):
     """Класс для удаления активного пользователя"""
     model = Customer
-    template_name = 'customers/customers-delete.html'
+    template_name: str = 'customers/customers-delete.html'
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
         customer = Customer.objects.select_related('lead', 'contract').get(id=kwargs['pk'])
         lead = Lead.objects.select_related('ads').get(id=customer.lead.pk)
         lead.is_active = False
@@ -71,15 +72,15 @@ class CustomerDeleteView(DeleteView):
         super().post(request, *args, **kwargs)
         return redirect('/customers/')
 
-    def get_success_url(self):
+    def get_success_url(self) -> HttpResponse:
         return reverse_lazy('customers:customers-list')
 
 
 class CustomerUpdateView(UpdateView):
     """Класс для обновления информации об активном пользователе"""
     model = Customer
-    fields = ["lead"]
-    template_name = 'customers/customers-edit.html'
+    fields: list[str] = ["lead"]
+    template_name: str = 'customers/customers-edit.html'
 
-    def get_success_url(self):
+    def get_success_url(self) -> HttpResponse:
         return reverse_lazy('customers:customers-detail', kwargs={"pk": self.kwargs.get('pk')})
