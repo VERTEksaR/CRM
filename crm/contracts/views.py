@@ -7,6 +7,7 @@ from users.mixins import GroupRequiredMixin
 
 
 class ContractListView(ListView, GroupRequiredMixin):
+    """Класс для просмотра всех контрактов"""
     group_required = ["Менеджер"]
     model = Contract
     queryset = Contract.objects.select_related('service').all()
@@ -15,6 +16,7 @@ class ContractListView(ListView, GroupRequiredMixin):
 
 
 class ContractCreateView(CreateView, GroupRequiredMixin):
+    """Класс для создание нового контракта"""
     group_required = ["Менеджер"]
     model = Contract
     form_class = ContractForm
@@ -25,6 +27,7 @@ class ContractCreateView(CreateView, GroupRequiredMixin):
 
 
 class ContractDetailsView(DetailView, GroupRequiredMixin):
+    """Класс для просмотра детальной информации контракта"""
     group_required = ["Менеджер"]
     model = Contract
     template_name = 'contracts/contracts-detail.html'
@@ -36,6 +39,7 @@ class ContractDetailsView(DetailView, GroupRequiredMixin):
 
 
 class ContractDeleteView(DeleteView, GroupRequiredMixin):
+    """Класс для удаление конракта"""
     group_required = ["Менеджер"]
     model = Contract
     template_name = 'contracts/contracts-delete.html'
@@ -45,6 +49,7 @@ class ContractDeleteView(DeleteView, GroupRequiredMixin):
 
 
 class ContractUpdateView(UpdateView, GroupRequiredMixin):
+    """Класс для обновления информации о контракте"""
     group_required = ["Менеджер"]
     model = Contract
     form_class = ContractForm
@@ -52,4 +57,3 @@ class ContractUpdateView(UpdateView, GroupRequiredMixin):
 
     def get_success_url(self):
         return reverse_lazy('contracts:contracts-detail', kwargs={"pk": self.kwargs.get('pk')})
-

@@ -2,12 +2,13 @@ from django.contrib.auth.views import LogoutView
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DeleteView, DetailView, UpdateView
 
-from users.models import Lead
 from customers.models import Customer
 from users.mixins import GroupRequiredMixin
+from users.models import Lead
 
 
 class LeadListView(ListView, GroupRequiredMixin):
+    """Класс для просмотра всех лидов"""
     group_required = ["Оператор", "Менеджер"]
     model = Lead
     template_name = 'users/leads-list.html'
@@ -28,6 +29,7 @@ class LeadListView(ListView, GroupRequiredMixin):
 
 
 class LeadCreateView(CreateView, GroupRequiredMixin):
+    """Класс для создания нового лида"""
     group_required = ["Оператор"]
     model = Lead
     fields = ['first_name', 'last_name', 'phone', 'email', 'ads']
@@ -38,12 +40,14 @@ class LeadCreateView(CreateView, GroupRequiredMixin):
 
 
 class LeadDetailsView(DetailView, GroupRequiredMixin):
+    """Класс для просмотра подробной информации о лиде"""
     group_required = ["Оператор"]
     model = Lead
     template_name = 'users/leads-detail.html'
 
 
 class LeadUpdateView(UpdateView, GroupRequiredMixin):
+    """Класс для обновления информации о лиде"""
     group_required = ["Оператор"]
     model = Lead
     fields = ['first_name', 'last_name', 'phone', 'email', 'ads']
@@ -54,6 +58,7 @@ class LeadUpdateView(UpdateView, GroupRequiredMixin):
 
 
 class LeadDeleteView(DeleteView, GroupRequiredMixin):
+    """Класс для удаления лида"""
     group_required = ["Оператор"]
     model = Lead
     template_name = 'users/leads-delete.html'

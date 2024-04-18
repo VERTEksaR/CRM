@@ -6,14 +6,16 @@ from django.views.generic import ListView, CreateView, DeleteView, DetailView, U
 
 from service.models import Service
 from adv_company.models import AdvCompany
-from users.models import Lead
 from customers.models import Customer
+from users.models import Lead
 from users.mixins import GroupRequiredMixin
 
 
 class MainPageView(View):
+    """Класс для просмотра основной страницы"""
     @staticmethod
     def get(request: HttpRequest):
+        """Метод для просмотра основной страницы"""
         products = Service.objects.all()
         advertisements = AdvCompany.objects.prefetch_related('service').all()
         leads = Lead.objects.select_related('ads').filter(is_active=False)
@@ -28,6 +30,7 @@ class MainPageView(View):
 
 
 class ServiceListView(ListView, GroupRequiredMixin):
+    """Класс для просмотра всех услуг"""
     group_required = ["Маркетолог"]
     model = Service
     queryset = Service.objects.all()
@@ -36,6 +39,7 @@ class ServiceListView(ListView, GroupRequiredMixin):
 
 
 class CreateServiceView(CreateView, GroupRequiredMixin):
+    """Класс для создания новой услуги"""
     group_required = ["Маркетолог"]
     model = Service
     fields = ["name", "description", "price"]
@@ -46,6 +50,7 @@ class CreateServiceView(CreateView, GroupRequiredMixin):
 
 
 class DeleteServiceView(DeleteView, GroupRequiredMixin):
+    """Класс для удаления услуги"""
     group_required = ["Маркетолог"]
     model = Service
     template_name = 'service/products-delete.html'
@@ -55,6 +60,7 @@ class DeleteServiceView(DeleteView, GroupRequiredMixin):
 
 
 class DetailsServiceView(DetailView, GroupRequiredMixin):
+    """Класс для просмотра детальной информации об услуге"""
     group_required = ["Маркетолог"]
     model = Service
     template_name = 'service/products-detail.html'
@@ -62,6 +68,7 @@ class DetailsServiceView(DetailView, GroupRequiredMixin):
 
 
 class UpdateServiceView(UpdateView, GroupRequiredMixin):
+    """Класс для обновления информации об услуге"""
     group_required = ["Маркетолог"]
     model = Service
     fields = ["name", "description", "price"]

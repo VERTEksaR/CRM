@@ -4,6 +4,7 @@ from django.shortcuts import redirect, render
 
 
 def login_view(request: HttpRequest):
+    """Функция для аутентификации пользователей на сайте"""
     if request.method == 'GET':
         if request.user.is_authenticated:
             return redirect('')
@@ -21,5 +22,6 @@ def login_view(request: HttpRequest):
 
 
 def logout_view(request: HttpRequest):
+    """Функция для разлогирования пользователей на сайте"""
     logout(request)
     return redirect('/')

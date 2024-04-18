@@ -1,19 +1,10 @@
-from django.contrib.auth.models import User
 from django.db import models
 
 from adv_company.models import AdvCompany
 
 
-def get_currencies():
-    return {
-        ("Администратор", "Администратор"),
-        ("Оператор", "Оператор"),
-        ("Маркетолог", "Маркетолог"),
-        ("Менеджер", "Менеджер"),
-    }
-
-
 class Lead(models.Model):
+    """Класс лида"""
     class Meta:
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'
@@ -26,4 +17,5 @@ class Lead(models.Model):
     is_active = models.BooleanField(default=False, verbose_name='Активный пользователь')
 
     def __str__(self):
+        """Возвращает фамилию и имя лида"""
         return f'{self.last_name} {self.first_name}'

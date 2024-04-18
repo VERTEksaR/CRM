@@ -5,6 +5,7 @@ from contracts.models import Contract
 
 
 class Customer(models.Model):
+    """Модель активного пользователя"""
     class Meta:
         verbose_name = 'Активный пользователь'
         verbose_name_plural = 'Активные пользователи'
@@ -13,4 +14,4 @@ class Customer(models.Model):
     contract = models.ForeignKey(Contract, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
-        return self.lead.first_name
+        return f'{self.lead} | {self.contract}'
