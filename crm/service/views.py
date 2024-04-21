@@ -15,6 +15,12 @@ from users.models import Lead
 
 
 def add_group_and_permissions():
+    """
+    Функция для автоматического создания 4 групп с правами: Оператор, Менеджер,
+    Маркетолог и Администратор
+
+    :returns: None
+    """
     names: List[str] = ['Оператор', 'Менеджер', 'Маркетолог', 'Администратор']
     permissions = [["add_lead", "change_lead", "delete_lead", "view_lead"],
                    ["add_contract", "change_contract", "delete_contract", "view_contract",
