@@ -1,7 +1,7 @@
 from typing import List
 
 from django.contrib.auth.models import Group, Permission
-from django.contrib.contenttypes.models import ContentType
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy
@@ -12,7 +12,6 @@ from service.models import Service
 from adv_company.models import AdvCompany
 from customers.models import Customer
 from users.models import Lead
-from users.mixins import GroupRequiredMixin
 
 
 def add_group_and_permissions():
@@ -67,18 +66,18 @@ class MainPageView(View):
         return render(request, 'service/index.html', context=context)
 
 
-class ServiceListView(ListView, GroupRequiredMixin):
+class ServiceListView(ListView, PermissionRequiredMixin):
     """Класс для просмотра всех услуг"""
-    group_required: list[str] = ["Маркетолог"]
+    permission_required: str = 'service.view_service'
     model = Service
     queryset = Service.objects.all()
     template_name: str = 'service/products-list.html'
     context_object_name: str = 'products'
 
 
-class CreateServiceView(CreateView, GroupRequiredMixin):
+class CreateServiceView(CreateView, PermissionRequiredMixin):
     """Класс для создания новой услуги"""
-    group_required: list[str] = ["Маркетолог"]
+    permission_required: str = 'service.add_service'
     model = Service
     fields: list[str] = ["name", "description", "price"]
     template_name: str = 'service/products-create.html'
@@ -87,9 +86,9 @@ class CreateServiceView(CreateView, GroupRequiredMixin):
         return reverse_lazy('service:products-list')
 
 
-class DeleteServiceView(DeleteView, GroupRequiredMixin):
+class DeleteServiceView(DeleteView, PermissionRequiredMixin):
     """Класс для удаления услуги"""
-    group_required: list[str] = ["Маркетолог"]
+    permission_required: str = 'service.delete_service'
     model = Service
     template_name: str = 'service/products-delete.html'
 
@@ -97,17 +96,17 @@ class DeleteServiceView(DeleteView, GroupRequiredMixin):
         return reverse_lazy('service:products-list')
 
 
-class DetailsServiceView(DetailView, GroupRequiredMixin):
+class DetailsServiceView(DetailView, PermissionRequiredMixin):
     """Класс для просмотра детальной информации об услуге"""
-    group_required: list[str] = ["Маркетолог"]
+    permission_required: str = 'service.view_service'
     model = Service
     template_name: str = 'service/products-detail.html'
     context_object_name: str = 'service'
 
 
-class UpdateServiceView(UpdateView, GroupRequiredMixin):
+class UpdateServiceView(UpdateView, PermissionRequiredMixin):
     """Класс для обновления информации об услуге"""
-    group_required: list[str] = ["Маркетолог"]
+    permission_required: str = 'service.change_service'
     model = Service
     fields: list[str] = ["name", "description", "price"]
     template_name: str = 'service/products-edit.html'

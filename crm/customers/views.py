@@ -3,15 +3,15 @@ from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, CreateView, DeleteView, DetailView, UpdateView
+from django.contrib.auth.mixins import PermissionRequiredMixin
 
 from customers.models import Customer
 from users.models import Lead
-from users.mixins import GroupRequiredMixin
 
 
-class CustomerListView(ListView, GroupRequiredMixin):
+class CustomerListView(ListView, PermissionRequiredMixin):
     """Класс для просмотра всех активных пользователей"""
-    group_required: list[str] = ["Менеджер"]
+    permission_required: str = 'customers.view_customer'
     model = Customer
     template_name: str = 'customers/customers-list.html'
     context_object_name: str = 'customers'
@@ -29,8 +29,9 @@ class CustomerListView(ListView, GroupRequiredMixin):
         return customers
 
 
-class CustomerCreateView(CreateView):
+class CustomerCreateView(CreateView, PermissionRequiredMixin):
     """Класс для создания нового активного пользователя"""
+    permission_required: str = 'customers.add_customer'
     model = Customer
     fields: list[str] = ['lead', 'contract']
     template_name: str = 'customers/customers-create.html'
@@ -52,15 +53,17 @@ class CustomerCreateView(CreateView):
         return reverse('customers:customers-list')
 
 
-class CustomerDetailView(DetailView):
+class CustomerDetailView(DetailView, PermissionRequiredMixin):
     """Класс для просмотра детальной инфомрации об активном пользователе"""
+    permission_required: str = 'customers.view_customer'
     model = Customer
     template_name: str = 'customers/customers-detail.html'
     context_object_name: str = 'customer'
 
 
-class CustomerDeleteView(DeleteView):
+class CustomerDeleteView(DeleteView, PermissionRequiredMixin):
     """Класс для удаления активного пользователя"""
+    permission_required: str = 'customers.delete_customer'
     model = Customer
     template_name: str = 'customers/customers-delete.html'
 
@@ -76,8 +79,9 @@ class CustomerDeleteView(DeleteView):
         return reverse_lazy('customers:customers-list')
 
 
-class CustomerUpdateView(UpdateView):
+class CustomerUpdateView(UpdateView, PermissionRequiredMixin):
     """Класс для обновления информации об активном пользователе"""
+    permission_required: str = 'customers.change_customer'
     model = Customer
     fields: list[str] = ["lead"]
     template_name: str = 'customers/customers-edit.html'

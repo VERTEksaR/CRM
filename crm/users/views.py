@@ -1,16 +1,16 @@
 from django.contrib.auth.views import LogoutView
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DeleteView, DetailView, UpdateView
 
 from customers.models import Customer
-from users.mixins import GroupRequiredMixin
 from users.models import Lead
 
 
-class LeadListView(ListView, GroupRequiredMixin):
+class LeadListView(ListView, PermissionRequiredMixin):
     """Класс для просмотра всех лидов"""
-    group_required: list[str] = ["Оператор", "Менеджер"]
+    permission_required: str = 'users.view_lead'
     model = Lead
     template_name: str = 'users/leads-list.html'
     context_object_name: str = 'leads'
@@ -29,9 +29,9 @@ class LeadListView(ListView, GroupRequiredMixin):
         return queryset_leads
 
 
-class LeadCreateView(CreateView, GroupRequiredMixin):
+class LeadCreateView(CreateView, PermissionRequiredMixin):
     """Класс для создания нового лида"""
-    group_required: list[str] = ["Оператор"]
+    permission_required: str = 'users.add_lead'
     model = Lead
     fields: list[str] = ['first_name', 'last_name', 'phone', 'email', 'ads']
     template_name: str = 'users/leads-create.html'
@@ -40,16 +40,16 @@ class LeadCreateView(CreateView, GroupRequiredMixin):
         return reverse_lazy('users:leads-list')
 
 
-class LeadDetailsView(DetailView, GroupRequiredMixin):
+class LeadDetailsView(DetailView, PermissionRequiredMixin):
     """Класс для просмотра подробной информации о лиде"""
-    group_required: list[str] = ["Оператор"]
+    permission_required: str = 'users.view_lead'
     model = Lead
     template_name: str = 'users/leads-detail.html'
 
 
-class LeadUpdateView(UpdateView, GroupRequiredMixin):
+class LeadUpdateView(UpdateView, PermissionRequiredMixin):
     """Класс для обновления информации о лиде"""
-    group_required: list[str] = ["Оператор"]
+    permission_required: str = 'users.change_lead'
     model = Lead
     fields: list[str] = ['first_name', 'last_name', 'phone', 'email', 'ads']
     template_name: str = 'users/leads-edit.html'
@@ -58,9 +58,9 @@ class LeadUpdateView(UpdateView, GroupRequiredMixin):
         return reverse_lazy('users:leads-detail', kwargs={'pk': self.kwargs.get('pk')})
 
 
-class LeadDeleteView(DeleteView, GroupRequiredMixin):
+class LeadDeleteView(DeleteView, PermissionRequiredMixin):
     """Класс для удаления лида"""
-    group_required: list[str] = ["Оператор"]
+    permission_required: str = 'users.delete_lead'
     model = Lead
     template_name: str = 'users/leads-delete.html'
 

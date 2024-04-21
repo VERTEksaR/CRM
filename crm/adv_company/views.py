@@ -4,26 +4,26 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import ListView, CreateView, DeleteView, DetailView, UpdateView
 from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.mixins import PermissionRequiredMixin
 
 
 from adv_company.models import AdvCompany
 from customers.models import Customer
 from users.models import Lead
-from users.mixins import GroupRequiredMixin
 
 
-class AdvListView(ListView, GroupRequiredMixin):
+class AdvListView(ListView, PermissionRequiredMixin):
     """Класс для просмотра списка всех рекламных кампаний"""
-    group_required: list[str] = ["Маркетолог"]
+    permission_required: str = 'advcompany.view_advcompany'
     model = AdvCompany
     queryset = AdvCompany.objects.prefetch_related('service').all()
     template_name: str = 'adv/ads-list.html'
     context_object_name: str = 'ads'
 
 
-class AdvCreateView(CreateView, GroupRequiredMixin):
+class AdvCreateView(CreateView, PermissionRequiredMixin):
     """Класс для создания новой рекламной кампании"""
-    group_required: list[str] = ["Маркетолог"]
+    permission_required: str = 'advcompany.add_advcompany'
     model = AdvCompany
     fields: list[str] = ["name", "service", "promotion_channel", "budget"]
     template_name: str = 'adv/ads-create.html'
@@ -32,16 +32,16 @@ class AdvCreateView(CreateView, GroupRequiredMixin):
         return reverse_lazy('advcompany:adv-list')
 
 
-class AdvDetailView(DetailView, GroupRequiredMixin):
+class AdvDetailView(DetailView, PermissionRequiredMixin):
     """Класс для просмотра подробной информации рекламной кампании"""
-    group_required: list[str] = ["Маркетолог"]
+    permission_required: str = 'advcompany.view_advcompany'
     model = AdvCompany
     template_name: str = 'adv/ads-detail.html'
 
 
-class AdvUpdateView(UpdateView, GroupRequiredMixin):
+class AdvUpdateView(UpdateView, PermissionRequiredMixin):
     """Класс для обновления информации о рекламной кампании"""
-    group_required: list[str] = ["Маркетолог"]
+    permission_required: str = 'advcompany.change_advcompany'
     model = AdvCompany
     fields: list[str] = ["name", "service", "promotion_channel", "budget"]
     template_name: str = 'adv/ads-edit.html'
@@ -50,9 +50,9 @@ class AdvUpdateView(UpdateView, GroupRequiredMixin):
         return reverse_lazy('advcompany:adv-edit', kwargs={"pk": self.kwargs.get('pk')})
 
 
-class AdvDeleteView(DeleteView, GroupRequiredMixin):
+class AdvDeleteView(DeleteView, PermissionRequiredMixin):
     """Класс для удаления рекламной кампании"""
-    group_required: list[str] = ["Маркетолог"]
+    permission_required: str = 'advcompany.delete_advcompany'
     model = AdvCompany
     template_name: str = 'adv/ads-delete.html'
 

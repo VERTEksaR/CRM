@@ -1,23 +1,23 @@
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DeleteView, DetailView, UpdateView
+from django.contrib.auth.mixins import PermissionRequiredMixin
 
 from contracts.models import Contract
 from contracts.forms import ContractForm
-from users.mixins import GroupRequiredMixin
 
 
-class ContractListView(ListView, GroupRequiredMixin):
+class ContractListView(ListView, PermissionRequiredMixin):
     """Класс для просмотра всех контрактов"""
-    group_required: list[str] = ["Менеджер"]
+    permission_required: str = 'contracts.view_contract'
     model = Contract
     queryset = Contract.objects.select_related('service').all()
     template_name: str = 'contracts/contracts-list.html'
     context_object_name: str = 'contracts'
 
 
-class ContractCreateView(CreateView, GroupRequiredMixin):
+class ContractCreateView(CreateView, PermissionRequiredMixin):
     """Класс для создание нового контракта"""
-    group_required: list[str] = ["Менеджер"]
+    permission_required: str = 'contracts.add_contract'
     model = Contract
     form_class = ContractForm
     template_name: str = 'contracts/contracts-create.html'
@@ -26,9 +26,9 @@ class ContractCreateView(CreateView, GroupRequiredMixin):
         return reverse_lazy('contracts:contracts-list')
 
 
-class ContractDetailsView(DetailView, GroupRequiredMixin):
+class ContractDetailsView(DetailView, PermissionRequiredMixin):
     """Класс для просмотра детальной информации контракта"""
-    group_required: list[str] = ["Менеджер"]
+    permission_required: str = 'contracts.view_contract'
     model = Contract
     template_name: str = 'contracts/contracts-detail.html'
 
@@ -38,9 +38,9 @@ class ContractDetailsView(DetailView, GroupRequiredMixin):
         return context
 
 
-class ContractDeleteView(DeleteView, GroupRequiredMixin):
-    """Класс для удаление конракта"""
-    group_required: list[str] = ["Менеджер"]
+class ContractDeleteView(DeleteView, PermissionRequiredMixin):
+    """Класс для удаления контракта"""
+    permission_required: str = 'contracts.delete_contract'
     model = Contract
     template_name: str = 'contracts/contracts-delete.html'
 
@@ -48,9 +48,9 @@ class ContractDeleteView(DeleteView, GroupRequiredMixin):
         return reverse_lazy('contracts:contracts-list')
 
 
-class ContractUpdateView(UpdateView, GroupRequiredMixin):
+class ContractUpdateView(UpdateView, PermissionRequiredMixin):
     """Класс для обновления информации о контракте"""
-    group_required: list[str] = ["Менеджер"]
+    permission_required: str = 'contracts.change_contract'
     model = Contract
     form_class = ContractForm
     template_name: str = 'contracts/contracts-edit.html'
