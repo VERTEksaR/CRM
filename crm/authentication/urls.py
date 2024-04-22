@@ -5,9 +5,9 @@ from authentication.views import (
     logout_view,
 )
 
-app_name = 'authentication'
+app_name = "authentication"
 
 urlpatterns = [
-    path('login/', login_view),
-    path('accounts/logout/', logout_view),
+    path("login/", login_view),
+    path("accounts/logout/", logout_view),
 ]

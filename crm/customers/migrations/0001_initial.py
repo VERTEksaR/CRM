@@ -5,25 +5,44 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
-        ('contracts', '0004_alter_contract_end_date'),
-        ('users', '0001_initial'),
+        ("contracts", "0004_alter_contract_end_date"),
+        ("users", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Customer',
+            name="Customer",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('contract', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='contracts.contract')),
-                ('lead', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='users.lead')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "contract",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to="contracts.contract",
+                    ),
+                ),
+                (
+                    "lead",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="users.lead"
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Активный пользователь',
-                'verbose_name_plural': 'Активные пользователи',
+                "verbose_name": "Активный пользователь",
+                "verbose_name_plural": "Активные пользователи",
             },
         ),
     ]

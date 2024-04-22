@@ -5,15 +5,19 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('contracts', '0007_alter_contract_end_date'),
+        ("contracts", "0007_alter_contract_end_date"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='contract',
-            name='end_date',
-            field=models.DateField(default=datetime.datetime(2024, 4, 4, 12, 24, 36, 35912, tzinfo=datetime.timezone.utc), verbose_name='Дата расторжения'),
+            model_name="contract",
+            name="end_date",
+            field=models.DateField(
+                default=datetime.datetime(
+                    2024, 4, 4, 12, 24, 36, 35912, tzinfo=datetime.timezone.utc
+                ),
+                verbose_name="Дата расторжения",
+            ),
         ),
     ]

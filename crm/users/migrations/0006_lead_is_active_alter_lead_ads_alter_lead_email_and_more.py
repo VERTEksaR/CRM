@@ -5,29 +5,34 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('adv_company', '0002_remove_advcompany_service_advcompany_service'),
-        ('users', '0005_alter_management_role'),
+        ("adv_company", "0002_remove_advcompany_service_advcompany_service"),
+        ("users", "0005_alter_management_role"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='lead',
-            name='is_active',
-            field=models.BooleanField(default=False, verbose_name='Активный пользователь'),
+            model_name="lead",
+            name="is_active",
+            field=models.BooleanField(
+                default=False, verbose_name="Активный пользователь"
+            ),
         ),
         migrations.AlterField(
-            model_name='lead',
-            name='ads',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='adv_company.advcompany', verbose_name='Рекламная кампания'),
+            model_name="lead",
+            name="ads",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.PROTECT,
+                to="adv_company.advcompany",
+                verbose_name="Рекламная кампания",
+            ),
         ),
         migrations.AlterField(
-            model_name='lead',
-            name='email',
-            field=models.EmailField(max_length=254, unique=True, verbose_name='Почта'),
+            model_name="lead",
+            name="email",
+            field=models.EmailField(max_length=254, unique=True, verbose_name="Почта"),
         ),
         migrations.DeleteModel(
-            name='Management',
+            name="Management",
         ),
     ]

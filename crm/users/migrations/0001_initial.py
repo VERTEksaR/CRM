@@ -5,27 +5,43 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
-        ('adv_company', '0002_remove_advcompany_service_advcompany_service'),
+        ("adv_company", "0002_remove_advcompany_service_advcompany_service"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Lead',
+            name="Lead",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('first_name', models.CharField(max_length=63, verbose_name='Имя')),
-                ('last_name', models.CharField(max_length=63, verbose_name='Фамилия')),
-                ('phone', models.IntegerField(unique=True, verbose_name='Номер телефона')),
-                ('email', models.EmailField(max_length=254, unique=True)),
-                ('ads', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='adv_company.advcompany')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("first_name", models.CharField(max_length=63, verbose_name="Имя")),
+                ("last_name", models.CharField(max_length=63, verbose_name="Фамилия")),
+                (
+                    "phone",
+                    models.IntegerField(unique=True, verbose_name="Номер телефона"),
+                ),
+                ("email", models.EmailField(max_length=254, unique=True)),
+                (
+                    "ads",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="adv_company.advcompany",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Пользователь',
-                'verbose_name_plural': 'Пользователи',
+                "verbose_name": "Пользователь",
+                "verbose_name_plural": "Пользователи",
             },
         ),
     ]

@@ -6,22 +6,35 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('users', '0003_alter_management_role'),
+        ("users", "0003_alter_management_role"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='management',
-            name='user',
-            field=models.ForeignKey(default=0, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, verbose_name='Пользователь'),
+            model_name="management",
+            name="user",
+            field=models.ForeignKey(
+                default=0,
+                on_delete=django.db.models.deletion.CASCADE,
+                to=settings.AUTH_USER_MODEL,
+                verbose_name="Пользователь",
+            ),
             preserve_default=False,
         ),
         migrations.AlterField(
-            model_name='management',
-            name='role',
-            field=models.CharField(choices=[('Менеджер', 'Менеджер'), ('Оператор', 'Оператор'), ('Администратор', 'Администратор'), ('Маркетолог', 'Маркетолог')], max_length=63, verbose_name='Роль'),
+            model_name="management",
+            name="role",
+            field=models.CharField(
+                choices=[
+                    ("Менеджер", "Менеджер"),
+                    ("Оператор", "Оператор"),
+                    ("Администратор", "Администратор"),
+                    ("Маркетолог", "Маркетолог"),
+                ],
+                max_length=63,
+                verbose_name="Роль",
+            ),
         ),
     ]

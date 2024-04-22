@@ -5,16 +5,17 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('customers', '0001_initial'),
-        ('users', '0005_alter_management_role'),
+        ("customers", "0001_initial"),
+        ("users", "0005_alter_management_role"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='customer',
-            name='lead',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='users.lead'),
+            model_name="customer",
+            name="lead",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.DO_NOTHING, to="users.lead"
+            ),
         ),
     ]

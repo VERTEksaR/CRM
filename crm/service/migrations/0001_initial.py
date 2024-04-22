@@ -4,24 +4,51 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Service',
+            name="Service",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=255, unique=True, verbose_name='Название услуги')),
-                ('description', models.TextField(blank=True, max_length=1023, null=True, verbose_name='Описание услуги')),
-                ('price', models.DecimalField(decimal_places=2, default=0, max_digits=8, verbose_name='Цена услуги')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(
+                        max_length=255, unique=True, verbose_name="Название услуги"
+                    ),
+                ),
+                (
+                    "description",
+                    models.TextField(
+                        blank=True,
+                        max_length=1023,
+                        null=True,
+                        verbose_name="Описание услуги",
+                    ),
+                ),
+                (
+                    "price",
+                    models.DecimalField(
+                        decimal_places=2,
+                        default=0,
+                        max_digits=8,
+                        verbose_name="Цена услуги",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Услуга',
-                'verbose_name_plural': 'Услуги',
+                "verbose_name": "Услуга",
+                "verbose_name_plural": "Услуги",
             },
         ),
     ]

@@ -4,22 +4,40 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('users', '0001_initial'),
+        ("users", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Management',
+            name="Management",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=63, verbose_name='Имя')),
-                ('role', models.CharField(choices=[('АД', 'Администратор'), ('ОП', 'Оператор'), ('МА', 'Маркетолог'), ('МЕ', 'Менеджер')], max_length=63)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=63, verbose_name="Имя")),
+                (
+                    "role",
+                    models.CharField(
+                        choices=[
+                            ("АД", "Администратор"),
+                            ("ОП", "Оператор"),
+                            ("МА", "Маркетолог"),
+                            ("МЕ", "Менеджер"),
+                        ],
+                        max_length=63,
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Работник',
-                'verbose_name_plural': 'Работники',
+                "verbose_name": "Работник",
+                "verbose_name_plural": "Работники",
             },
         ),
     ]
