@@ -29,7 +29,7 @@ SECRET_KEY = "django-insecure-^^m^=h^7(di4!y!gw@i^$w0_!7&n+(qc7q=1o3-3ykl7dqn+xh
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1']
 
 
 # Application definition
@@ -101,11 +101,11 @@ MESSAGE_TAGS = {
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "USER": "VERTEksaR",
+        "USER": "verteksar",
         "PASSWORD": "1234qwer",
         "NAME": "crm",
         "PORT": 5432,
-        "HOST": "localhost",
+        "HOST": "postgres",
     }
 }
 
@@ -145,6 +145,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = "static/"
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
