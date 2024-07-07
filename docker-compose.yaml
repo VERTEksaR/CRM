@@ -45,19 +45,12 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
   crm:
-    build:
-      dockerfile: ./Dockerfile
+    build: .
     container_name: crm1
     restart: always
-    command: sh -c "
-      python manage.py migrate &&
-      python manage.py collectstatic --noinput &&
-      python manage.py createsuperuser --noinput &&
-      gunicorn crm.wsgi:application --bind 0.0.0.0:8711 --log-level debug"
-    expose:
-      - 8711
-    environment:
-      - DEBUG=0
+    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    ports:
+      - 8711:8000
     depends_on:
       - postgres
 volumes:

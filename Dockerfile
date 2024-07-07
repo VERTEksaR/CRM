@@ -10,12 +10,14 @@ ENV PYTHONUNBUFFERED=1
 
 COPY requirements.txt requirements.txt
 
-RUN pip install --upgrade pip
+#RUN pip install --upgrade pip
 
 #RUN apk add --no-cache postgresql-libs  && \
 #    apk add --no-cache --virtual .build-deps gcc musl-dev postgresql-dev git libffi-dev openssl-dev python3-dev jpeg-dev zlib-dev
 
 
-RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 COPY crm .
+
+EXPOSE 8711
