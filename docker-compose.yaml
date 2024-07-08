@@ -41,14 +41,14 @@ services:
       POSTGRES_USER: verteksar
       POSTGRES_PASSWORD: 1234qwer
     ports:
-      - "5433:5432"
+      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
   crm:
     build: .
     container_name: crm1
     restart: always
-    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    command: bash -c "python manage.py migrate && gunicorn crm.wsgi:application --bind 0.0.0.0:8000 --log-level debug"
     ports:
       - 8711:8000
     depends_on:
