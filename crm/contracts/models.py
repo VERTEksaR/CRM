@@ -1,3 +1,6 @@
+import datetime
+
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
 
@@ -33,3 +36,14 @@ class Contract(models.Model):
     def __str__(self):
         """Возвращает название контракта"""
         return self.name
+
+    def clean(self):
+        """Валидация данных"""
+        if len(self.name) > 255:
+            print(self.name)
+            raise ValidationError('Длина названия не может превышать 255 символов')
+
+    def save(self, *args, **kwargs):
+        """Метод для сохранения данных при успешной валидации"""
+        self.full_clean()
+        return super().save(*args, **kwargs)
